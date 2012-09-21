@@ -3,7 +3,6 @@
 	<name>puppet-riak</name>
 	<comment></comment>
 	<projects>
-		<project>puppet-stdlib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
