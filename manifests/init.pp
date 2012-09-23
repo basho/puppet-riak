@@ -159,7 +159,7 @@ class riak(
       source => $download,
       hash   => $download_hash
     }
-    package { 'riak':
+    package { $package:
       ensure   => $manage_package,
       source   => $pkgfile,
       provider => $riak::params::package_provider,
@@ -215,7 +215,7 @@ class riak(
       Class['riak::vmargs'],
       Class['riak::config'],
       User['riak'],
-      Package['riak']
+      Package[$package]
     ],
   } ->
 
