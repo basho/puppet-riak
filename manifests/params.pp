@@ -35,7 +35,7 @@ class riak::params {
   }
 
   $version = '1.2.0'
-
+  $use_repos = true
   $get = $::operatingsystem ? {
     /(?i:centos|redhat)/ => "/riak/CURRENT/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
     default              => "/riak/CURRENT/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}"

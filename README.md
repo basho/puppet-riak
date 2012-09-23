@@ -16,11 +16,11 @@ at [Basho][1].
 
 ### Tested on:
 
-You need to ssh and run 'gem install hiera-puppet' after launch.
+
 
  * Ubuntu 12.04 LTS (Precise) 64-bit - works, 
  * Debian 6.0 (Squeeze) 64-bit
- * CentOs 6.0 64-bit
+ * CentOs 6.3 64-bit
 
 ## Development Environment
 
