@@ -13,11 +13,6 @@
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
 #
-# manage_repos:
-#   If +true+ it will try to setup the repositories provided by basho.com to
-#   install Riak. If you manage your own repositories for whatever reason you
-#   probably want to set this to +false+.
-#
 # source:
 #   Sets the content of source parameter for main configuration file
 #   If defined, riak's app.config file will have the param: source => $source.
@@ -65,37 +60,36 @@
 #        },
 #        ssl => {
 #          certfile => "${etc_dir}/cert.pem",
-#          keyfile  => "${etc_dir}/key.pem",
+#          keyfile  => "${etc_dir}/key.pem"
 #        }
 #      }
 #    }
 #  }
 #
 # == Author
-#   Henrik Feldt, github.com/basho/puppet-riak.
+#   Henrik Feldt, github.com/haf/puppet-riak.
 #
-class riak (
-  $version             = hiera('version', $riak::params::version),
-  $package             = hiera('package', $riak::params::package),
-  $download            = hiera('download', $riak::params::download),
-  $use_repos           = hiera('use_repos', $riak::params::use_repos),
-  $manage_repos        = hiera('manage_repos', true),
-  $download_hash       = hiera('download_hash', $riak::params::download_hash),
-  $source              = hiera('source', ''),
-  $template            = hiera('template', ''),
-  $architecture        = hiera('architecture', $riak::params::architecture),
-  $log_dir             = hiera('log_dir', $riak::params::log_dir),
-  $erl_log_dir         = hiera('erl_log_dir', $riak::params::erl_log_dir),
-  $etc_dir             = hiera('etc_dir', $riak::params::etc_dir),
-  $data_dir            = hiera('data_dir', $riak::params::data_dir),
-  $service_autorestart = hiera('service_autorestart', $riak::params::service_autorestart),
-  $cfg                 = hiera_hash('cfg', {}),
-  $vmargs_cfg          = hiera_hash('vmargs_cfg', {}),
-  $disable             = false,
-  $disableboot         = false,
-  $absent              = false,
-  $ulimit              = $riak::params::ulimit,
-  $limits_template     = $riak::params::limits_template
+class riak(
+  $version = hiera('version', $riak::params::version),
+  $package = hiera('package', $riak::params::package),
+  $download = hiera('download', $riak::params::download),
+  $use_repos = hiera('use_repos', $riak::params::use_repos),
+  $download_hash = hiera('download_hash', $riak::params::download_hash),
+  $source = hiera('source', ''),
+  $template = hiera('template', ''),
+  $architecture = hiera('architecture', $riak::params::architecture),
+  $log_dir = hiera('log_dir', $riak::params::log_dir),
+  $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
+  $etc_dir = hiera('etc_dir', $riak::params::etc_dir),
+  $data_dir = hiera('data_dir', $riak::params::data_dir),
+  $service_autorestart = hiera('service_autorestart',
+    $riak::params::service_autorestart
+  ),
+  $cfg = hiera_hash('cfg', {}),
+  $vmargs_cfg = hiera_hash('vmargs_cfg', {}),
+  $disable = false,
+  $disableboot = false,
+  $absent = false
 ) inherits riak::params {
 
   include stdlib
@@ -103,35 +97,30 @@ class riak (
   $pkgfile = "/tmp/${$package}-${$version}.${$riak::params::package_type}"
 
   File {
-    owner => 'root',
-    group => 'root',
-    mode  => '0644',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
   }
 
   $manage_package = $absent ? {
-    true    => 'absent',
+    true => 'absent',
     default => 'installed',
   }
 
-  $manage_repos_real = $use_repos ? {
-    true    => $manage_repos,
-    default => false
-  }
-
   $manage_service_ensure = $disable ? {
-    true    => 'stopped',
+    true => 'stopped',
     default => $absent ? {
-      true    => 'stopped',
+      true => 'stopped',
       default => 'running',
     },
   }
 
   $manage_service_enable = $disableboot ? {
-    true    => false,
+    true => false,
     default => $disable ? {
-      true    => false,
+      true => false,
       default => $absent ? {
-        true    => false,
+        true => false,
         default => true,
       },
     },
@@ -139,58 +128,51 @@ class riak (
 
   $manage_file = $absent ? {
     true    => 'absent',
-    default => 'present',
+    default => 'present'
   }
 
   $manage_service_autorestart = $service_autorestart ? {
-    /true/  => 'Service[riak]',
+    /true/ => 'Service[riak]',
     default => undef,
   }
 
-  anchor { 'riak::start': }
+  anchor { 'riak::start': } ->
 
   package { $riak::params::deps:
-    ensure  => $manage_package,
-    require => Anchor['riak::start'],
-    before  => Anchor['riak::end'],
+    ensure  => $manage_package
   }
 
   if $use_repos == true {
-    package { $package:
-      ensure  => $manage_package,
-      require => [
+    package { 'riak':
+      ensure   => $manage_package,
+      require  => [
         Class[riak::config],
-        Package[$riak::params::deps],
-        Anchor['riak::start'],
-      ],
-      before  => Anchor['riak::end'],
+        Package[$riak::params::deps]
+      ]
     }
   } else {
+    #notify { 'url':
+    #  message => "Downloaded file from ##${download}/${download_hash}##",
+    #}
     httpfile {  $pkgfile:
-      ensure  => present,
-      source  => $download,
-      hash    => $download_hash,
-      require => Anchor['riak::start'],
-      before  => Anchor['riak::end'],
+      ensure => present,
+      source => $download,
+      hash   => $download_hash
     }
-    package { 'riak':
+    package { $package:
       ensure   => $manage_package,
       source   => $pkgfile,
       provider => $riak::params::package_provider,
       require  => [
         Httpfile[$pkgfile],
-        Package[$riak::params::deps],
-        Anchor['riak::start'],
-      ],
-      before   => Anchor['riak::end'],
+        Package[$riak::params::deps]
+      ]
     }
   }
 
   file { $etc_dir:
-    ensure  => directory,
-    mode    => '0755',
-    require => Anchor['riak::start'],
-    before  => Anchor['riak::end'],
+    ensure => directory,
+    mode   => '0755'
   }
 
   class { 'riak::appconfig':
@@ -198,49 +180,31 @@ class riak (
     source   => $source,
     template => $template,
     cfg      => $cfg,
-    require  => [
-      File[$etc_dir],
-      Anchor['riak::start'],
-    ],
-    notify   => $manage_service_autorestart,
-    before   => Anchor['riak::end'],
+    require  => File[$etc_dir],
+    notify   => $manage_service_autorestart
   }
 
   class { 'riak::config':
     absent       => $absent,
-    manage_repos => $manage_repos_real,
-    require      => Anchor['riak::start'],
-    before       => Anchor['riak::end'],
+    manage_repos => $use_repos
   }
 
   class { 'riak::vmargs':
     absent  => $absent,
     cfg     => $vmargs_cfg,
-    require => [
-      File[$etc_dir],
-      Anchor['riak::start'],
-    ],
-    before  => Anchor['riak::end'],
+    require => File[$etc_dir],
     notify  => $manage_service_autorestart,
   }
 
   group { 'riak':
-    ensure => present,
-    system => true,
-    require => Anchor['riak::start'],
-    before  => Anchor['riak::end'],
+    ensure => present
   }
 
   user { 'riak':
     ensure  => ['present'],
-    system => true,
     gid     => 'riak',
     home    => $data_dir,
-    require => [
-      Group['riak'],
-      Anchor['riak::start'],
-    ],
-    before  => Anchor['riak::end'],
+    require => Group['riak']
   }
 
   service { 'riak':
@@ -251,11 +215,9 @@ class riak (
       Class['riak::vmargs'],
       Class['riak::config'],
       User['riak'],
-      Package['riak'],
-      Anchor['riak::start'],
+      Package[$package]
     ],
-    before  => Anchor['riak::end'],
-  }
+  } ->
 
   anchor { 'riak::end': }
 }
