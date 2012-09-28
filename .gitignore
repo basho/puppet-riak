@@ -5,6 +5,7 @@ fixtures/
 *.rb~
 .vagrant
 .settings/
+.project
 Gemfile.lock
 files/packages/
 graphs/
