@@ -22,10 +22,10 @@ describe 'riak::vmargs', :type => :class do
     let(:hiera_data) do
       { :absent => true }
     end
-    it { 
+    it {
       # https://github.com/amfranz/rspec-hiera-puppet/issues/3
       pending 'strange: hiera should look at :hiera_data, before looking at default'
-      should contain_file('/etc/riak/vm.args').with_ensure('absent') }  
+      should contain_file('/etc/riak/vm.args').with_ensure('absent') }
   end
 
   describe 'when decommissioning w/ params (absent):' do

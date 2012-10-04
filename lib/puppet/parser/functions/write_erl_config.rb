@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), '/../util/erly')
 
 module Puppet::Parser::Functions
   newfunction(:write_erl_config, :type => :rvalue, :doc => <<-DOC) do |*args|
-    Output an erlang configuration from the given hash. 
+    Output an erlang configuration from the given hash.
   DOC
 
     raise(Puppet::ParseError, "write_erl_config(): Wrong number of arguments " +

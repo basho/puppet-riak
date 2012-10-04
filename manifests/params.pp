@@ -11,34 +11,34 @@
 class riak::params {
 
   $package = $::operatingsystem ? {
-    default           => 'riak'
+    default => 'riak',
   }
 
   $deps = $::operatingssytem ? {
-    /(?i:centos|redhat)/  => [],
-    default               => []
+    /(?i:centos|redhat)/ => [],
+    default              => [],
   }
 
   $package_type = $::operatingsystem ? {
     /(?i:centos|redhat)/ => 'rpm',
-    default              => 'deb'
+    default              => 'deb',
   }
 
   $package_provider = $::operatingsystem ? {
-    /(?i:centos|redhat)/  => 'rpm',
-    default               => 'dpkg'
+    /(?i:centos|redhat)/ => 'rpm',
+    default              => 'dpkg',
   }
 
   $architecture = $::operatingsystem ? {
-    /(?i:centos|redhat)/  => 'x86_64',
-    default               => 'amd64'
+    /(?i:centos|redhat)/ => 'x86_64',
+    default              => 'amd64',
   }
 
   $version = '1.2.0'
   $use_repos = true
   $get = $::operatingsystem ? {
     /(?i:centos|redhat)/ => "/riak/CURRENT/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
-    default              => "/riak/CURRENT/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}"
+    default              => "/riak/CURRENT/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}",
   }
 
   $download = "http://downloads.basho.com.s3-website-us-east-1.amazonaws.com${get}"

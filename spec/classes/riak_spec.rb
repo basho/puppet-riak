@@ -27,7 +27,7 @@ describe 'riak', :type => :class do
   end
 
   describe 'custom package configuration' do
-    let(:params) { { :version => '1.2.0', :package => 'custom_riak', 
+    let(:params) { { :version => '1.2.0', :package => 'custom_riak',
                      :package_hash => 'abcd' } }
     it 'should be downloading latest' do
       subject.should contain_httpfile('/tmp/custom_riak-1.2.0.deb').

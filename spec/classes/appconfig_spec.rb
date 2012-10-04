@@ -9,7 +9,4 @@ describe 'riak', :type => :class do
   let(:title) { "riak" }
 
   include_context 'hieradata'
-
-  
-
 end
