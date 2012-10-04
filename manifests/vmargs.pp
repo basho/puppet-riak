@@ -11,40 +11,40 @@
 #   File to use for templating vm.args. Mutually exclusive
 #   with source.
 #
-class riak::vmargs(
-  $cfg = {},
+class riak::vmargs (
+  $cfg         = {},
   $erl_log_dir = hiera('erl_log_dir', $riak::params::erl_log_dir),
-  $template = hiera('vm_args_template', ''),
-  $source = hiera('vm_args_source', ''),
-  $absent = false
+  $template    = hiera('vm_args_template', ''),
+  $source      = hiera('vm_args_source', ''),
+  $absent      = false,
 ) inherits riak::params {
 
   $vmargs_cfg = merge({
-    '-name'   => 'riak',
+    '-name'      => 'riak',
     '-setcookie' => 'riak',
-    '-ip'     => $::ipaddress,
-    '+K'      => true,
-    '+A'      => 64,
-    '-smp'    => 'enable',
-    '-env'    => {
+    '-ip'        => $::ipaddress,
+    '+K'         => true,
+    '+A'         => 64,
+    '-smp'       => 'enable',
+    '-env'       => {
       'ERL_MAX_PORTS'  => 4096,
-      'ERL_CRASH_DUMP' => "${$erl_log_dir}/erl_crash.dmp"
+      'ERL_CRASH_DUMP' => "${$erl_log_dir}/erl_crash.dmp",
     }
   }, $cfg)
 
   $manage_file = $absent ? {
     true    => 'absent',
-    default => 'present'
+    default => 'present',
   }
 
   $manage_template = $template ? {
     ''      => write_erl_args($vmargs_cfg),
-    default => template($template)
+    default => template($template),
   }
 
   $manage_source = $source ? {
     ''      => undef,
-    default => $source
+    default => $source,
   }
 
   anchor { 'riak::vmargs::start': } ->
@@ -52,7 +52,7 @@ class riak::vmargs(
   file { '/etc/riak/vm.args':
     ensure  => $manage_file,
     content => $manage_template,
-    source  => $manage_source
+    source  => $manage_source,
   } ->
 
   anchor { 'riak::vmargs::end': }

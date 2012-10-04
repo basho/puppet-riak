@@ -36,25 +36,25 @@ class riak::appconfig(
   $appcfg = merge({
     kernel => {
       inet_dist_listen_min => 6000,
-      inet_dist_listen_max => 7999
+      inet_dist_listen_max => 7999,
     },
-    riak_api => {
+    riak_api  => {
       pb_ip   => $::ipaddress,
-      bp_port => 8087
+      bp_port => 8087,
     },
     riak_core => {
-      ring_state_dir => "${$riak::params::data_dir}/ring",
+      ring_state_dir     => "${$riak::params::data_dir}/ring",
       ring_creation_size => 64,
       http               => {
-        "__string_${$::ipaddress}" => 8098
+        "__string_${$::ipaddress}" => 8098,
       },
-      handoff_port       => 8099,
-      dtrace_support     => false,
-      platform_bin_dir   => $riak::params::bin_dir,
-      platform_data_dir  => $riak::params::data_dir,
-      platform_etc_dir   => $riak::params::etc_dir,
-      platform_lib_dir   => $riak::params::lib_dir,
-      platform_log_dir   => $riak::params::log_dir
+      handoff_port      => 8099,
+      dtrace_support    => false,
+      platform_bin_dir  => $riak::params::bin_dir,
+      platform_data_dir => $riak::params::data_dir,
+      platform_etc_dir  => $riak::params::etc_dir,
+      platform_lib_dir  => $riak::params::lib_dir,
+      platform_log_dir  => $riak::params::log_dir,
     },
     riak_kv => {
       storage_backend       => '__atom_riak_kv_bitcask_backend',
@@ -69,71 +69,69 @@ class riak::appconfig(
       http_url_encoding     => 'on',
       vnode_vclocks         => true,
       legacy_keylisting     => false,
-      listkeys_backpressure => true
+      listkeys_backpressure => true,
     },
     riak_search => {
-      enabled => false
+      enabled => false,
     },
     merge_index => {
       data_root            => "${$riak::params::data_dir}/merge_index",
       buffer_rollover_size => 1048576,
-      max_compact_segments => 20
+      max_compact_segments => 20,
     },
     bitcask => {
-      data_root => "${$riak::params::data_dir}/bitcask"
+      data_root => "${$riak::params::data_dir}/bitcask",
     },
     leveldb => {
-      data_root => "${$riak::params::data_dir}/leveldb"
+      data_root => "${$riak::params::data_dir}/leveldb",
     },
     lager => {
       handlers => {
         lager_file_backend   => [
-          ['__tuple', $riak::params::error_log, '__atom_error',
-            10485760, '$D0', 5],
-          ['__tuple', $riak::params::info_log,  '__atom_info',
-            10485760, '$D0', 5]
+          ['__tuple', $riak::params::error_log, '__atom_error', 10485760, '$D0', 5],
+          ['__tuple', $riak::params::info_log,  '__atom_info', 10485760, '$D0', 5],
         ],
         crash_log             => $riak::params::crash_log,
         crash_log_msg_side    => 65536,
         crash_log_size        => 10485760,
         crash_log_date        => '$D0',
         crash_log_count       => 5,
-        error_logger_redirect => true
+        error_logger_redirect => true,
       }
     },
     riak_sysmon => {
-      process_limit => 20,
-      post_limit => 2,
-      gc_ms_limit => 100,
+      process_limit   => 20,
+      post_limit      => 2,
+      gc_ms_limit     => 100,
       heap_word_limit => 40111000,
-      busy_port => true,
-      busy_dist_port => true
+      busy_port       => true,
+      busy_dist_port  => true,
     },
     sasl => {
       sasl_error_logger => false,
-      utc_log           => true
+      utc_log           => true,
     },
     riak_control => {
-      enabled   => false,
-      auth      => 'userlist',
-      userlist  => ['__tuple', 'user', 'pass'],
-      admin     => true
+      enabled  => false,
+      auth     => 'userlist',
+      userlist => ['__tuple', 'user', 'pass'],
+      admin    => true,
     },
   }, $cfg)
 
   $manage_file = $absent ? {
     true    => 'absent',
-    default => 'present'
+    default => 'present',
   }
 
   $manage_template = $template ? {
     ''      => write_erl_config($appcfg),
-    default => template($template)
+    default => template($template),
   }
 
   $manage_source = $source ? {
     ''      => undef,
-    default => $source
+    default => $source,
   }
 
   anchor { 'riak::appconfig::start': } ->
@@ -141,11 +139,11 @@ class riak::appconfig(
   file { [
       $appcfg[riak_core][platform_log_dir],
       $appcfg[riak_core][platform_lib_dir],
-      $appcfg[riak_core][platform_data_dir]
+      $appcfg[riak_core][platform_data_dir],
     ]:
     ensure => directory,
     mode   => '0755',
-    owner  => 'riak'
+    owner  => 'riak',
   }
 
   file { "${$appcfg[riak_core][platform_etc_dir]}/app.config":
@@ -155,8 +153,8 @@ class riak::appconfig(
     require => [
       File["${$appcfg[riak_core][platform_log_dir]}"],
       File["${$appcfg[riak_core][platform_lib_dir]}"],
-      File["${$appcfg[riak_core][platform_data_dir]}"]
-    ]
+      File["${$appcfg[riak_core][platform_data_dir]}"],
+    ],
   }
 
   anchor { 'riak::appconfig::end':
@@ -164,7 +162,7 @@ class riak::appconfig(
       File["${$appcfg[riak_core][platform_etc_dir]}/app.config"],
       File["${$appcfg[riak_core][platform_log_dir]}"],
       File["${$appcfg[riak_core][platform_lib_dir]}"],
-      File["${$appcfg[riak_core][platform_data_dir]}"]
-    ]
+      File["${$appcfg[riak_core][platform_data_dir]}"],
+    ],
   }
 }
