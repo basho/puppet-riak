@@ -16,8 +16,6 @@ at [Basho][1].
 
 ### Tested on:
 
-
-
  * Ubuntu 12.04 LTS (Precise) 64-bit - works, 
  * Debian 6.0 (Squeeze) 64-bit
  * CentOs 6.3 64-bit
@@ -92,5 +90,5 @@ From your excellent presentations I could find online, and your samples
 at your github. Thanks Alessandro.
 
 [1]: http://basho.com/
-[2]: https://github.com/haf/puppet-riak/wiki
-[3]: https://github.com/haf/puppet-riak/wiki/Testing-with-Vagrant
+[2]: https://github.com/basho/puppet-riak/wiki
+[3]: https://github.com/basho/puppet-riak/wiki/Testing-with-Vagrant
