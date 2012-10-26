@@ -10,3 +10,4 @@ Gemfile.lock
 files/packages/
 graphs/
 metadata.json
+.project

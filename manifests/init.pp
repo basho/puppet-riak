@@ -143,7 +143,7 @@ class riak (
   }
 
   if $use_repos == true {
-    package { 'riak':
+    package { $package:
       ensure  => $manage_package,
       require => [
         Class[riak::config],
