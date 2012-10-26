@@ -134,10 +134,12 @@ class riak (
     default => undef,
   }
 
-  anchor { 'riak::start': } ->
+  anchor { 'riak::start': }
 
   package { $riak::params::deps:
-    ensure => $manage_package,
+    ensure  => $manage_package,
+    require => Anchor['riak::start'],
+    before  => Anchor['riak::end'],
   }
 
   if $use_repos == true {
@@ -146,13 +148,17 @@ class riak (
       require => [
         Class[riak::config],
         Package[$riak::params::deps],
+        Anchor['riak::start'],
       ],
+      before  => Anchor['riak::end'],
     }
   } else {
     httpfile {  $pkgfile:
-      ensure => present,
-      source => $download,
-      hash   => $download_hash,
+      ensure  => present,
+      source  => $download,
+      hash    => $download_hash,
+      require => Anchor['riak::start'],
+      before  => Anchor['riak::end'],
     }
     package { 'riak':
       ensure   => $manage_package,
@@ -161,13 +167,17 @@ class riak (
       require  => [
         Httpfile[$pkgfile],
         Package[$riak::params::deps],
+        Anchor['riak::start'],
       ],
+      before   => Anchor['riak::end'],
     }
   }
 
   file { $etc_dir:
-    ensure => directory,
-    mode   => '0755',
+    ensure  => directory,
+    mode    => '0755',
+    require => Anchor['riak::start'],
+    before  => Anchor['riak::end'],
   }
 
   class { 'riak::appconfig':
@@ -175,31 +185,47 @@ class riak (
     source   => $source,
     template => $template,
     cfg      => $cfg,
-    require  => File[$etc_dir],
+    require  => [
+      File[$etc_dir],
+      Anchor['riak::start'],
+    ],
     notify   => $manage_service_autorestart,
+    before   => Anchor['riak::end'],
   }
 
   class { 'riak::config':
     absent       => $absent,
     manage_repos => $use_repos,
+    require      => Anchor['riak::start'],
+    before       => Anchor['riak::end'],
   }
 
   class { 'riak::vmargs':
     absent  => $absent,
     cfg     => $vmargs_cfg,
-    require => File[$etc_dir],
+    require => [
+      File[$etc_dir],
+      Anchor['riak::start'],
+    ],
+    before  => Anchor['riak::end'],
     notify  => $manage_service_autorestart,
   }
 
   group { 'riak':
     ensure => present,
+    require => Anchor['riak::start'],
+    before  => Anchor['riak::end'],
   }
 
   user { 'riak':
     ensure  => ['present'],
     gid     => 'riak',
     home    => $data_dir,
-    require => Group['riak'],
+    require => [
+      Group['riak'],
+      Anchor['riak::start'],
+    ],
+    before  => Anchor['riak::end'],
   }
 
   service { 'riak':
@@ -211,8 +237,10 @@ class riak (
       Class['riak::config'],
       User['riak'],
       Package['riak'],
+      Anchor['riak::start'],
     ],
-  } ->
+    before  => Anchor['riak::end'],
+  }
 
   anchor { 'riak::end': }
 }
