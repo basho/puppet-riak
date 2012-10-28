@@ -83,6 +83,7 @@ end
 desc "Check puppet manifests with puppet-lint"
 task :lint do
   require 'puppet-lint/tasks/puppet-lint'
+  PuppetLint.configuration.send("disable_80chars")
 end
 
 desc "Display the list of available rake tasks"
