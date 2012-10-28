@@ -61,28 +61,11 @@ bumps in the road.
    the issue is resolved (about 4 lines of code) in master. Affects
    running of rake when the task raises errors.
 
- * http://projects.puppetlabs.com/issues/15820
-
-   This issue is what is currently failing all of `spec/classes/`. A fix
-   HAS been released, but not as a gem. The repository doesn't allow me
-   to report issues conveniently, and there's no gemspec file, so I can't
-   just reference the repo either.
-
  * https://github.com/amfranz/rspec-hiera-puppet/issues/3
 
    This issue affects a single test that exposed the issue; overriding
    puppet variables with rspec variables. The test is currently marked as
    pending.
-
- * https://gist.github.com/3560970
-
-   Unmet dependencies on vanilla Debian 6.0. I'm probably going to have
-   to make apt-get add a source for this OS.
-
- * no such gem 'hiera-puppet' - I can't provision out of the box with
-   Puppet 2.7, because the hiera-puppet module fails with an import error.
-   This gem should be bundled with puppet, or there ought to be a way to
-   make the module install it.
 
 #### Example42
 
