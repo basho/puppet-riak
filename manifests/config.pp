@@ -12,8 +12,8 @@ class riak::config (
 ) {
 
   $package_repo_type = $::operatingsystem ? {
-    /(?i:centos|redhat)/ => 'yum',
-    /(?i:debian|ubuntu)/ => 'apt',
+    /(?i:centos|redhat|Amazon)/ => 'yum',
+    /(?i:debian|ubuntu)/        => 'apt',
   }
 
   $manage_yum_repo = $absent ? {
