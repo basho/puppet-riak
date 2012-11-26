@@ -90,14 +90,13 @@ class riak::appconfig(
         lager_file_backend   => [
           ['__tuple', $riak::params::error_log, '__atom_error', 10485760, '$D0', 5],
           ['__tuple', $riak::params::info_log,  '__atom_info', 10485760, '$D0', 5],
-        ],
-        crash_log             => $riak::params::crash_log,
-        crash_log_msg_side    => 65536,
-        crash_log_size        => 10485760,
-        crash_log_date        => '$D0',
-        crash_log_count       => 5,
-        error_logger_redirect => true,
-      }
+        ]},
+      crash_log             => $riak::params::crash_log,
+      crash_log_msg_side    => 65536,
+      crash_log_size        => 10485760,
+      crash_log_date        => '$D0',
+      crash_log_count       => 5,
+      error_logger_redirect => true,
     },
     riak_sysmon => {
       process_limit   => 20,
