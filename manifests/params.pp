@@ -45,11 +45,11 @@ class riak::params {
 
   $download_hash = "${download}.sha"
 
+  $log_dir = '/var/log/riak'
   $error_log = "${log_dir}/error.log"
   $info_log = "${log_dir}/console.log"
   $crash_log = "${log_dir}/crash.log"
 
-  $log_dir = '/var/log/riak'
   $erl_log_dir = '/var/log/riak'
   $data_dir = '/var/lib/riak'
   $lib_dir = '/usr/lib/riak'
