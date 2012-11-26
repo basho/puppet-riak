@@ -40,7 +40,7 @@ class riak::appconfig(
     },
     riak_api  => {
       pb_ip   => $::ipaddress,
-      bp_port => 8087,
+      pb_port => 8087,
     },
     riak_core => {
       ring_state_dir     => "${$riak::params::data_dir}/ring",
