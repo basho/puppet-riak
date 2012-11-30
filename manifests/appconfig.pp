@@ -82,7 +82,7 @@ class riak::appconfig(
     bitcask => {
       data_root => "${$riak::params::data_dir}/bitcask",
     },
-    leveldb => {
+    eleveldb => {
       data_root => "${$riak::params::data_dir}/leveldb",
     },
     lager => {
