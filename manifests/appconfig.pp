@@ -26,8 +26,7 @@ class riak::appconfig(
   $cfg = {},
   $source = hiera('source', ''),
   $template = hiera('template', ''),
-  $absent = false,
-  $search_enabled = hiera('search_enabled', false)
+  $absent = false
 ) {
 
   require riak::params
@@ -73,7 +72,7 @@ class riak::appconfig(
       listkeys_backpressure => true,
     },
     riak_search => {
-      enabled => $search_enabled,
+      enabled => false,
     },
     merge_index => {
       data_root            => "${$riak::params::data_dir}/merge_index",
