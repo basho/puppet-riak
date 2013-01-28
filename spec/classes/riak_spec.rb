@@ -14,7 +14,7 @@ describe 'riak', :type => :class do
     let(:params) {{}}
     it { should contain_class('riak') }
     it { should contain_httpfile('/tmp/riak-1.2.0.deb').with_ensure('present') }
-    it { should contain_package('riak').with_ensure('latest') }
+    it { should contain_package('riak').with_ensure('installed') }
     it { should contain_service('riak').with({
         :ensure => 'running',
         :enable => 'true'
