@@ -9,4 +9,3 @@ summary 'A module for managing Riak with Puppet, that supports clustering of the
 description 'A module for managing Riak with Puppet, that supports clustering of the Riak nodes'
 
 dependency 'puppetlabs/stdlib', '~3.0.1'
-dependency 'puppetlabs/hiera-puppet', '~0.3.0'
