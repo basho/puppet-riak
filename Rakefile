@@ -77,7 +77,7 @@ task :spec_clean do
     FileUtils::rm(target)
   end
 
-  FileUtils::rm("spec/fixtures/manifests/site.pp")
+  FileUtils::rm("spec/fixtures/manifests/vagrant-riak.pp")
 end
 
 desc "Check puppet manifests with puppet-lint"

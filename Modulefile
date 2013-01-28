@@ -1,5 +1,5 @@
 name 'haf-riak'
-version '0.0.1'
+version '0.1.0'
 
 author 'Henrik Feldt'
 license 'MIT'
