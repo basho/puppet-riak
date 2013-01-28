@@ -14,6 +14,7 @@ class riak::config (
   $package_repo_type = $::operatingsystem ? {
     /(?i:centos|redhat|Amazon)/ => 'yum',
     /(?i:debian|ubuntu)/        => 'apt',
+    # https://github.com/kelseyhightower/puppet-homebrew
     /(?i:darwin)/               => 'brew',
     default                     => 'yum',
   }
