@@ -1,4 +1,4 @@
-#ruby=1.8.7
+#ruby=1.9.3
 #ruby-gemset=puppet-riak
 # this Gemfile is for the development of the module, you don't need all of these to RUN the module with puppet
 source 'https://rubygems.org'
