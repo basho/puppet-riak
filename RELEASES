@@ -1,0 +1,13 @@
+
+v0.0.1 - First Release
+v0.1.0:
+A whole slew of bugfixes and improvements:
+ * Tested on Amazon Linux
+ * Tested in clustered riak environment
+ * Removed explicit dependency on hiera puppet module since hiera now is included in puppet.
+ * Fixed problems with vm.args
+ * Now defaults to Basho's repository, not downloaded file.
+ * Code style improvements.
+ * Better test coverage.
+
+
