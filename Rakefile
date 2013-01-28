@@ -65,6 +65,7 @@ task :spec_prep do
   FileUtils::mkdir_p("spec/fixtures/manifests")
   file = 'spec/fixtures/manifests/vagrant-riak.pp'
   File.open(file, 'w+') { |f| f.puts 'node default { include riak }' } unless File.exists? file
+  cp file, File.join(File.dirname(file), 'site.pp')
 end
 
 desc "Clean up the fixtures directory"
