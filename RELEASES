@@ -9,5 +9,7 @@ A whole slew of bugfixes and improvements:
  * Now defaults to Basho's repository, not downloaded file.
  * Code style improvements.
  * Better test coverage.
+v0.1.1:
+ * Fixing Modulefile
 
 
