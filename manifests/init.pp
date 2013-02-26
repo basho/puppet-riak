@@ -13,6 +13,11 @@
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
 #
+# manage_repos:
+#   If +true+ it will try to setup the repositories provided by basho.com to
+#   install Riak. If you manage your own repositories for whatever reason you
+#   probably want to set this to +false+.
+#
 # source:
 #   Sets the content of source parameter for main configuration file
 #   If defined, riak's app.config file will have the param: source => $source.
