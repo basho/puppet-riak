@@ -13,6 +13,11 @@
 # package_hash:
 #   A URL of a hash-file or sha2-string in hexdigest
 #
+# manage_repos:
+#   If +true+ it will try to setup the repositories provided by basho.com to
+#   install Riak. If you manage your own repositories for whatever reason you
+#   probably want to set this to +false+.
+#
 # source:
 #   Sets the content of source parameter for main configuration file
 #   If defined, riak's app.config file will have the param: source => $source.
@@ -74,6 +79,7 @@ class riak (
   $package             = hiera('package', $riak::params::package),
   $download            = hiera('download', $riak::params::download),
   $use_repos           = hiera('use_repos', $riak::params::use_repos),
+  $manage_repos        = hiera('manage_repos', true),
   $download_hash       = hiera('download_hash', $riak::params::download_hash),
   $source              = hiera('source', ''),
   $template            = hiera('template', ''),
@@ -103,6 +109,11 @@ class riak (
   $manage_package = $absent ? {
     true    => 'absent',
     default => 'installed',
+  }
+
+  $manage_repos_real = $use_repos ? {
+    true    => $manage_repos,
+    default => false
   }
 
   $manage_service_ensure = $disable ? {
@@ -195,7 +206,7 @@ class riak (
 
   class { 'riak::config':
     absent       => $absent,
-    manage_repos => $use_repos,
+    manage_repos => $manage_repos_real,
     require      => Anchor['riak::start'],
     before       => Anchor['riak::end'],
   }
