@@ -34,11 +34,12 @@ class riak::params {
     default                     => 'amd64',
   }
 
-  $version = '1.2.0'
+  $version = '1.3.0'
+  $version_maj_min = semver_maj_min($version)
   $use_repos = true
   $get = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => "/riak/CURRENT/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
-    default                     => "/riak/CURRENT/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}",
+    /(?i:centos|redhat|Amazon)/ => "/riak/$(version_maj_min}/${version}/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
+    default                     => "/riak/${version_maj_min}/${version}/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}",
   }
 
   $download = "http://downloads.basho.com.s3-website-us-east-1.amazonaws.com${get}"
