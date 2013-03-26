@@ -66,7 +66,7 @@ class riak::appconfig(
       hook_js_vm_count      => 2,
       js_max_vm_mem         => 8,
       js_thread_stack       => 16,
-      http_url_encoding     => 'on',
+      http_url_encoding     => '__atom_on',
       vnode_vclocks         => true,
       legacy_keylisting     => false,
       listkeys_backpressure => true,
