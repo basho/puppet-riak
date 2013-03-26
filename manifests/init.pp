@@ -223,7 +223,8 @@ class riak (
   }
 
   group { 'riak':
-    ensure => present,
+    ensure  => present,
+    system  => true,
     require => Anchor['riak::start'],
     before  => Anchor['riak::end'],
   }
@@ -232,6 +233,7 @@ class riak (
     ensure  => ['present'],
     gid     => 'riak',
     home    => $data_dir,
+    system  => true,
     require => [
       Group['riak'],
       Anchor['riak::start'],
