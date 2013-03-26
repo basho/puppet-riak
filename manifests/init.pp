@@ -224,12 +224,14 @@ class riak (
 
   group { 'riak':
     ensure => present,
+    system => true,
     require => Anchor['riak::start'],
     before  => Anchor['riak::end'],
   }
 
   user { 'riak':
     ensure  => ['present'],
+    system => true,
     gid     => 'riak',
     home    => $data_dir,
     require => [
