@@ -7,13 +7,13 @@ module Puppet::Parser::Functions
     for further comments and documentation.
   DOC
   
+    if args[0].is_a? Array
+      args = args[0]
+    end
+
     raise(Puppet::ParseError, "merge_hashes/2: Wrong number of arguments " +
           "given (#{args.size} instead of 2.)") unless args.size == 2
   
-    if args[0].is_a? Array
-        args = args[0]
-    end
-
     extend args[0], args[1]
   end
   
