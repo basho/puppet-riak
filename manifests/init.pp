@@ -108,7 +108,7 @@ class riak (
 
   $manage_package = $absent ? {
     true    => 'absent',
-    default => 'installed',
+    default => $version,
   }
 
   $manage_repos_real = $use_repos ? {
