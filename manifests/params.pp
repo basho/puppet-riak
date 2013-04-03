@@ -38,7 +38,7 @@ class riak::params {
   $version_maj_min = semver_maj_min($version)
   $use_repos = true
   $get = $::operatingsystem ? {
-    /(?i:centos|redhat|Amazon)/ => "/riak/$(version_maj_min}/${version}/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
+    /(?i:centos|redhat|Amazon)/ => "/riak/${version_maj_min}/${version}/rhel/6/riak-${version}-1.el6.${architecture}.${package_type}",
     default                     => "/riak/${version_maj_min}/${version}/ubuntu/precise/riak_${version}-1_${architecture}.${package_type}",
   }
 
