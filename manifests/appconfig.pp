@@ -143,6 +143,7 @@ class riak::appconfig(
     ensure  => directory,
     mode    => '0755',
     owner   => 'riak',
+    group   => 'riak',
     require => Anchor['riak::appconfig::start'],
     before  => Anchor['riak::appconfig::end'],
   }
