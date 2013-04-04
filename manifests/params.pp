@@ -6,7 +6,8 @@
 #
 # == Usage
 #
-# Don't use this class directly; it's being used where it is needed
+# Don't use this class directly; it's being used where it is needed.
+# Hiera will try and inject overrides where these properties are being used.
 #
 class riak::params {
 
@@ -58,4 +59,7 @@ class riak::params {
   $etc_dir = '/etc/riak'
 
   $service_autorestart = true
+
+  $ulimit = 4096
+  $limits_template = 'riak/limits.conf.erb'
 }
