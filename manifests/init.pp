@@ -72,7 +72,7 @@
 #  }
 #
 # == Author
-#   Henrik Feldt, github.com/haf/puppet-riak.
+#   Henrik Feldt, github.com/basho/puppet-riak.
 #
 class riak (
   $version             = hiera('version', $riak::params::version),
@@ -94,6 +94,8 @@ class riak (
   $disable             = false,
   $disableboot         = false,
   $absent              = false,
+  $ulimit              = $riak::params::ulimit,
+  $limits_template     = $riak::params::limits_template
 ) inherits riak::params {
 
   include stdlib

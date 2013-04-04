@@ -10,6 +10,8 @@ class riak::config (
   $absent       = false,
   $manage_repos = true,
 ) {
+  $ulimit = $riak::ulimit
+  $limits_template = $riak::limits_template
 
   $package_repo_type = $::operatingsystem ? {
     /(?i:centos|redhat|Amazon)/ => 'yum',
@@ -64,5 +66,12 @@ class riak::config (
         fail("Riak supports apt and yum for package_repo_type and you specified ${package_repo_type}")
       }
     }
+  }
+
+  file { '/etc/security/limits.conf':
+    owner   => 'root',
+    group   => 'root',
+    mode    => '644',
+    content => template($limits_template)
   }
 }
