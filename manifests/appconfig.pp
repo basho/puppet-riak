@@ -33,7 +33,7 @@ class riak::appconfig(
 
   # merge the given $cfg parameter with the default,
   # favoring the givens, rather than the defaults
-  $appcfg = merge({
+  $appcfg = merge_hashes({
     kernel => {
       inet_dist_listen_min => 6000,
       inet_dist_listen_max => 7999,

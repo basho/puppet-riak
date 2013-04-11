@@ -18,6 +18,5 @@ module Puppet::Parser::Functions
     s = (args.length == 2 && args[1]) || :pp # symbol
 
     ::Puppet::Parser::Util::Args.new(h).send(s)
-
   end
 end
