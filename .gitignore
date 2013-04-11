@@ -11,3 +11,4 @@ files/packages/
 graphs/
 metadata.json
 .project
+*.dot
