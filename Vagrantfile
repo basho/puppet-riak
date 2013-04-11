@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = 'CentOS-6.3_x86_64-small'
   config.vm.box_url = 'https://1412126a-vagrant.s3.amazonaws.com/CentOS-6.3-x86_64-reallyminimal.box'
 
-  #config.vm.synced_folder "#{FileUtils.pwd}", "."
+  config.vm.synced_folder ".", "/etc/puppet/modules/riak"
 
   # give all nodes a little bit more memory:
   config.vm.provider "virtualbox" do |v|
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
       cfg.vm.network :private_network, ip: "#{ip}"
 
       #get those gems installed
-      cfg.vm.provision :shell, :path => "shellprovision/bootstrap.sh"
+      #cfg.vm.provision :shell, :path => "shellprovision/bootstrap.sh"
       # specify puppet for provisioning
       cfg.vm.provision :puppet do |puppet|
         puppet.manifests_path = File.join 'spec', 'fixtures', 'manifests'
