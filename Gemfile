@@ -20,10 +20,3 @@ group :testing do
   gem 'guard-rspec' # for running specs automatically
   gem 'guard-puppet-lint'
 end
-
-group :integration do
-  gem 'vagrant'
-  gem 'vagrant-vbguest'
-  # gem 'vagrant-hiera', :path => File.join(File.expand_path('.'), '..', 'vagrant-hiera')
-  # gem 'vagrant-hiera', :git => 'git://github.com/gposton/vagrant-hiera.git'
-end
