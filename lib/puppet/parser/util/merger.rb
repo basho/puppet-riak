@@ -25,7 +25,7 @@ module Puppet::Parser::Util
       # union merge all items of kvs2
       } | kvs2.reject { |k, v| kvs1.has_key? k }.to_a
 
-      Hash[ merged ]
+      ::Hash[ merged ]
     end
     def is_hashish? thing
       return false if thing.nil?
