@@ -208,9 +208,10 @@ class riak(
   }
 
   service { 'riak':
-    ensure  => $manage_service_ensure,
-    enable  => $manage_service_enable,
-    require => [
+    ensure     => $manage_service_ensure,
+    enable     => $manage_service_enable,
+    hasrestart => $riak::params::has_restart,
+    require    => [
       Class['riak::appconfig'],
       Class['riak::vmargs'],
       Class['riak::config'],

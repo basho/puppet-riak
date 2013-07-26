@@ -35,6 +35,11 @@ class riak::params {
     default                     => 'amd64',
   }
 
+  $has_restart = $::operatingsystem ? {
+    /(?i:centos|redhat|Amazon)/ => true,
+    default                     => false,
+  }
+
   $version = '1.3.0'
   $version_maj_min = semver_maj_min($version)
   $use_repos = true
