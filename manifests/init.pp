@@ -252,7 +252,7 @@ class riak (
       Class['riak::vmargs'],
       Class['riak::config'],
       User['riak'],
-      Package['riak'],
+      Package[$package],
       Anchor['riak::start'],
     ],
     before  => Anchor['riak::end'],

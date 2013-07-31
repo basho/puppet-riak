@@ -37,6 +37,18 @@ describe 'riak', :type => :class do
         with({
           :ensure => 'installed',
           :source =>'/tmp/custom_riak-1.2.0.deb'}) }
+
+    context 'with :use_repos => true' do
+      let(:params) { {:use_repos => true, :package => 'riak-1.2.1-1.el6'} }
+
+      it do
+        should contain_service('riak').with_require(%Q([Class[Riak::Appconfig]\
+{:name=>"Riak::Appconfig"}, Class[Riak::Vmargs]{:name=>"Riak::Vmargs\
+"}, Class[Riak::Config]{:name=>"Riak::Config"}, User[riak]{:name=>\
+"riak"}, Package[riak-1.2.1-1.el6]{:name=>"riak-1.2.1-1.el6"}, Anc\
+hor[riak::start]{:name=>"riak::start"}]))
+      end
+    end
   end
 
   def res t, n
