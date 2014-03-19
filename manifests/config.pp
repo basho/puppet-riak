@@ -39,8 +39,10 @@ class riak::config (
           path    => '/etc/apt/sources.list.d/basho.list',
           content => "deb http://apt.basho.com ${$::lsbdistcodename} main\n",
         }
-        package { 'curl':
-          ensure => installed,
+        if ! defined(Package['curl']) {
+          package { 'curl':
+            ensure => installed,
+          }
         }
         exec { 'add-basho-key':
           command => '/usr/bin/curl http://apt.basho.com/gpg/basho.apt.key | /usr/bin/apt-key add -',
