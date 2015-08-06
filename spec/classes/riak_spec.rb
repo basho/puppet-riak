@@ -55,7 +55,12 @@ describe 'riak' do
             it { is_expected.to_not contain_class('riak::repository::el') }
             it { is_expected.to_not contain_yumrepo('basho_riak') }
           when 'Debian'
-            it { is_expected.to_not contain_class('riak::repository::debian') }
+            case facts[:operationsystem]
+            when 'ubuntu'
+              it { is_expected.to_not contain_class('riak::repository::ubuntu') }
+            else
+              it { is_expected.to_not contain_class('riak::repository::debian') }  
+            end
             it { is_expected.to_not contain_apt__source('riak') }
           end
         end
